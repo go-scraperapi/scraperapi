@@ -7,9 +7,9 @@ https://www.scraperapi.com/signup
 
 ## Installation
 
-`go get github.com/go-scraperapi/scraperapi`
+`go get -u github.com/go-scraperapi/scraperapi`
 
-## Usage
+## Example Usage
 
 ```go
 package main
