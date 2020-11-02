@@ -29,21 +29,23 @@ func New(apiKey string) *Client {
 	}
 }
 
-func (c *Client) Get(url string) (*http.Response, error) {
-	return c.makeAPICall("GET", url)
+// Get performs a GET HTTP request to Scraper API.
+func (c *Client) Get(url string, options ...option) (*http.Response, error) {
+	return c.makeAPICall("GET", url, options)
 }
 
-func (c *Client) makeAPICall(httpMethod, url string) (*http.Response, error) {
+func (c *Client) makeAPICall(httpMethod, url string, options []option) (*http.Response, error) {
 	req, err := http.NewRequest(httpMethod, c.BaseURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("can't create an HTTP request: %s", err)
 	}
 
-	AddQueryParam(req, "url", url)
+	req = AddQueryParam(req, "url", url)
+	for k := range options {
+		req = options[k](req)
+	}
 
 	return c.sendRequest(req)
-
-	//req = req.WithContext(ctx)
 }
 
 // TODO: Implement, add POST, PUT
@@ -76,10 +78,8 @@ func (c *Client) Account() (accountResp AccountResponse, err error) {
 	return
 }
 
-// TODO: applyOptions
-
 func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
-	AddQueryParam(req, "api_key", c.apiKey)
+	req = AddQueryParam(req, "api_key", c.apiKey)
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {

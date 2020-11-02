@@ -1,10 +1,17 @@
 package scraperapi
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+)
 
 // AddQueryParam adds a query parameter to the HTTP request.
-func AddQueryParam(req *http.Request, key, value string) {
-	q := req.URL.Query()
+func AddQueryParam(req *http.Request, key, value string) *http.Request {
+	reqNew := req.Clone(context.Background())
+
+	q := reqNew.URL.Query()
 	q.Add(key, value)
-	req.URL.RawQuery = q.Encode()
+	reqNew.URL.RawQuery = q.Encode()
+
+	return reqNew
 }
