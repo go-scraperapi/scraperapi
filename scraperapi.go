@@ -63,6 +63,7 @@ func (c *Client) Account() (accountResp AccountResponse, err error) {
 	if err != nil {
 		return
 	}
+	defer res.Body.Close()
 
 	err = json.NewDecoder(res.Body).Decode(&accountResp)
 	return
@@ -77,7 +78,6 @@ func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
 
 	//if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 	//	var errRes errorResponse
