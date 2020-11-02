@@ -2,6 +2,7 @@ package scraperapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -28,18 +29,24 @@ func New(apiKey string) *Client {
 	}
 }
 
-//func (c *Client) Get(ctx context.Context, url string) (http.Response, error) {
-//	// TODO: Implement, add POST, PUT
-//
-//	req, err := http.NewRequest("GET", , nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	req = req.WithContext(ctx)
-//
-//	return http.Response{}, nil
-//}
+func (c *Client) Get(url string) (*http.Response, error) {
+	return c.makeAPICall("GET", url)
+}
+
+func (c *Client) makeAPICall(httpMethod, url string) (*http.Response, error) {
+	req, err := http.NewRequest(httpMethod, c.BaseURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("can't create an HTTP request: %s", err)
+	}
+
+	AddQueryParam(req, "url", url)
+
+	return c.sendRequest(req)
+
+	//req = req.WithContext(ctx)
+}
+
+// TODO: Implement, add POST, PUT
 
 // AccountResponse is a response from the account API call.
 type AccountResponse struct {
