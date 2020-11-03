@@ -17,7 +17,9 @@ package main
 import (
 	"context"
 	"fmt"
+    "net/url"
 	"io/ioutil"
+    "strings"
 	"github.com/go-scraperapi/scraperapi"
 )
 
@@ -25,22 +27,33 @@ func main() {
 	s := scraperapi.New("<your-api-key>")
 
 	// Scrape a URL.
-	resp, err := s.Get("http://httpbin.org/ip")
+	resp, err := s.Get("http://httpbin.org/anything")
 
 	// Pass a context to control execution.
 	ctx, _ := context.WithCancel(context.Background())
 	resp, err = s.Get(
-		"http://httpbin.org/ip",
+		"http://httpbin.org/anything",
 		scraperapi.WithContext(ctx),
 	)
 
 	// You can also pass a number of other options.
 	resp, err = s.Get(
-		"http://httpbin.org/ip",
+		"http://httpbin.org/anything",
 		scraperapi.WithRenderJS(),
 		scraperapi.WithHeaders(map[string]string{"X-MyHeader": "123"}),
 		scraperapi.WithSessionNumber(45),
 		scraperapi.WithCountryCode(scraperapi.CountryCodeAustralia),
+	)
+
+	// Scrape a form submit result.
+	form := url.Values{}
+	form.Add("foo", "bar")
+	resp, err = s.Post(
+		"http://httpbin.org/anything",
+		strings.NewReader(form.Encode()),
+		scraperapi.WithHeaders(map[string]string{
+			"Content-Type": "application/x-www-form-urlencoded",
+		}),
 	)
 
 	// For the sake of the example, let's print it out.

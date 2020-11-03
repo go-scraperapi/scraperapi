@@ -3,6 +3,7 @@ package scraperapi
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -31,11 +32,21 @@ func New(apiKey string) *Client {
 
 // Get performs a GET HTTP request to Scraper API.
 func (c *Client) Get(url string, options ...option) (*http.Response, error) {
-	return c.makeAPICall("GET", url, options)
+	return c.makeAPICall("GET", url, nil, options)
 }
 
-func (c *Client) makeAPICall(httpMethod, url string, options []option) (*http.Response, error) {
-	req, err := http.NewRequest(httpMethod, c.BaseURL, nil)
+// Post performs a POST HTTP request to Scraper API.
+func (c *Client) Post(url string, body io.Reader, options ...option) (*http.Response, error) {
+	return c.makeAPICall("POST", url, body, options)
+}
+
+// Put performs a PUT HTTP request to Scraper API.
+func (c *Client) Put(url string, body io.Reader, options ...option) (*http.Response, error) {
+	return c.makeAPICall("PUT", url, body, options)
+}
+
+func (c *Client) makeAPICall(httpMethod, url string, body io.Reader, options []option) (*http.Response, error) {
+	req, err := http.NewRequest(httpMethod, c.BaseURL, body)
 	if err != nil {
 		return nil, fmt.Errorf("can't create an HTTP request: %s", err)
 	}
@@ -47,8 +58,6 @@ func (c *Client) makeAPICall(httpMethod, url string, options []option) (*http.Re
 
 	return c.sendRequest(req)
 }
-
-// TODO: Implement, add POST, PUT
 
 // AccountResponse is a response from the account API call.
 type AccountResponse struct {
@@ -87,6 +96,7 @@ func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
 		return nil, err
 	}
 
+	// TODO: Properly handle errors.
 	//if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 	//	var errRes errorResponse
 	//	if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
