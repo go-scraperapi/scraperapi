@@ -80,6 +80,7 @@ func (c *Client) Account() (accountResp AccountResponse, err error) {
 
 func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
 	req = AddQueryParam(req, "api_key", c.apiKey)
+	req = AddQueryParam(req, "scraper_sdk", "go")
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
