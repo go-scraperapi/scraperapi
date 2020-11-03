@@ -23,6 +23,7 @@ func WithRenderJS() option {
 }
 
 // WithHeaders instructs Scraper API to pass provided headers.
+// TODO: Refactoring to only accept a single header.
 func WithHeaders(headers map[string]string) option {
 	return func(req *http.Request) *http.Request {
 		for key, value := range headers {
