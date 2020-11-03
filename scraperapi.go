@@ -51,7 +51,7 @@ func (c *Client) makeAPICall(httpMethod, url string, body io.Reader, options []o
 		return nil, fmt.Errorf("can't create an HTTP request: %s", err)
 	}
 
-	req = AddQueryParam(req, "url", url)
+	req = SetQueryParam(req, "url", url)
 	for k := range options {
 		req = options[k](req)
 	}
@@ -88,8 +88,8 @@ func (c *Client) Account() (accountResp AccountResponse, err error) {
 }
 
 func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
-	req = AddQueryParam(req, "api_key", c.apiKey)
-	req = AddQueryParam(req, "scraper_sdk", "go")
+	req = SetQueryParam(req, "api_key", c.apiKey)
+	req = SetQueryParam(req, "scraper_sdk", "go")
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {

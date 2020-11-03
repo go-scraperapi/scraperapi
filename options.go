@@ -18,25 +18,23 @@ func WithContext(ctx context.Context) option {
 // WithRenderJS makes the request fetch pages using a headless browser.
 func WithRenderJS() option {
 	return func(req *http.Request) *http.Request {
-		return AddQueryParam(req, "render", "true")
+		return SetQueryParam(req, "render", "true")
 	}
 }
 
-// WithHeaders instructs Scraper API to pass provided headers.
+// WithHeader instructs Scraper API to pass a provided header.
 // TODO: Refactoring to only accept a single header.
-func WithHeaders(headers map[string]string) option {
+func WithHeader(key, value string) option {
 	return func(req *http.Request) *http.Request {
-		for key, value := range headers {
-			req.Header.Set(key, value)
-		}
-		return AddQueryParam(req, "keep_headers", "true")
+		req.Header.Set(key, value)
+		return SetQueryParam(req, "keep_headers", "true")
 	}
 }
 
 // WithSessionNumber attaches a session number to a request.
 func WithSessionNumber(n int) option {
 	return func(req *http.Request) *http.Request {
-		return AddQueryParam(req, "session_number", strconv.Itoa(n))
+		return SetQueryParam(req, "session_number", strconv.Itoa(n))
 	}
 }
 
@@ -58,6 +56,6 @@ const (
 // WithCountryCode ensures your requests come from the specified location.
 func WithCountryCode(countyCode string) option {
 	return func(req *http.Request) *http.Request {
-		return AddQueryParam(req, "country_code", countyCode)
+		return SetQueryParam(req, "country_code", countyCode)
 	}
 }

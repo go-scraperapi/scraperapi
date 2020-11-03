@@ -34,9 +34,7 @@ func TestWithHeaders(t *testing.T) {
 
 	expected := "application/json"
 
-	req = WithHeaders(map[string]string{
-		"Content-Type": expected,
-	})(req)
+	req = WithHeader("Content-Type", expected)(req)
 
 	actual := req.Header.Get("Content-Type")
 	if actual != expected {

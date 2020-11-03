@@ -13,8 +13,11 @@ func TestClient_Post(t *testing.T) {
 		w.WriteHeader(200)
 		w.Write([]byte("ok"))
 
-		hExpected := "application/x-www-form-urlencoded"
-		hActual := r.Header.Get("Content-Type")
+		h1Expected := "application/x-www-form-urlencoded"
+		h1Actual := r.Header.Get("Content-Type")
+
+		h2Expected := "special value"
+		h2Actual := r.Header.Get("X-My-Header")
 
 		apiKeyExpected := "very-secret-api-key"
 		apiKeyActual := r.URL.Query().Get("api_key")
@@ -26,8 +29,12 @@ func TestClient_Post(t *testing.T) {
 		fExpected := "bar"
 		fActual := r.Form["foo"][0]
 
-		if hExpected != hActual {
-			t.Errorf("expected header %s, got %s", hExpected, hActual)
+		if h1Expected != h1Actual {
+			t.Errorf("expected Content-Type %s, got %s", h1Expected, h1Actual)
+		}
+
+		if h2Expected != h2Actual {
+			t.Errorf("expected X-My-Header %s, got %s", h2Expected, h2Actual)
 		}
 
 		if apiKeyExpected != apiKeyActual {
@@ -53,9 +60,8 @@ func TestClient_Post(t *testing.T) {
 	_, err := c.Post(
 		"http://httpbin.org/anything",
 		strings.NewReader(form.Encode()),
-		WithHeaders(map[string]string{
-			"Content-Type": "application/x-www-form-urlencoded",
-		}),
+		WithHeader("Content-Type", "application/x-www-form-urlencoded"),
+		WithHeader("X-My-Header", "special value"),
 	)
 	if err != nil {
 		t.Error(err)
