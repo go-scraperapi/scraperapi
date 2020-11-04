@@ -121,14 +121,14 @@ X-Powered-By: Express
 0
 ```
 
-## Test
+## Testing
 
-Unit tests:
+Run unit tests:
 ```bash
 go test -v`
 ```
 
-Integration tests:
+Run integration tests:
 
 ```bash
 SCRAPER_API_KEY=<your-api-key> go test -v -tags=integration
