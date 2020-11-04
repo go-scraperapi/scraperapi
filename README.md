@@ -33,6 +33,7 @@ s.Get(
 	scraperapi.WithHeader("X-MyHeader", "123"),
 	scraperapi.WithSessionNumber(45),
 	scraperapi.WithCountryCode(scraperapi.CountryCodeAustralia),
+	scraperapi.WithDeviceTypeMobile(),
 )
 
 // Scrape a form submit result.

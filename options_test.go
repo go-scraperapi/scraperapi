@@ -70,3 +70,15 @@ func TestWithCountryCode(t *testing.T) {
 		t.Errorf("expected %s, got %v", expected, actual)
 	}
 }
+
+func TestWithDeviceTypeMobile(t *testing.T) {
+	req, _ := http.NewRequest("GET", "https://google.com", nil)
+
+	req = WithDeviceTypeMobile()(req)
+
+	expected := "mobile"
+	actual := req.URL.Query().Get("device_type")
+	if actual != expected {
+		t.Errorf("expected %s, got %v", expected, actual)
+	}
+}
