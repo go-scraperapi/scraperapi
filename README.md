@@ -33,7 +33,7 @@ s.Get(
 	scraperapi.WithHeader("X-MyHeader", "123"),
 	scraperapi.WithSessionNumber("63c38f8dd07491e16e4d125983800a29"),
 	scraperapi.WithCountryCode(scraperapi.CountryCodeAustralia),
-	scraperapi.WithDeviceTypeMobile(),
+	scraperapi.WithDeviceType(scraperapi.DeviceTypeMobile),
 	scraperapi.WithAutoParse(),
 	scraperapi.WithPremium(),
 )

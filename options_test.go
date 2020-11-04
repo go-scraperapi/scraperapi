@@ -74,7 +74,7 @@ func TestWithCountryCode(t *testing.T) {
 func TestWithDeviceTypeMobile(t *testing.T) {
 	req, _ := http.NewRequest("GET", "https://google.com", nil)
 
-	req = WithDeviceTypeMobile()(req)
+	req = WithDeviceType(DeviceTypeMobile)(req)
 
 	expected := "mobile"
 	actual := req.URL.Query().Get("device_type")

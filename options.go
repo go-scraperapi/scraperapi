@@ -59,10 +59,14 @@ func WithCountryCode(countyCode string) option {
 	}
 }
 
-// WithDeviceTypeMobile passes device_type=mobile to the API.
-func WithDeviceTypeMobile() option {
+const (
+	DeviceTypeMobile = "mobile"
+)
+
+// WithDeviceType sets device_type to the specified value.
+func WithDeviceType(deviceType string) option {
 	return func(req *http.Request) *http.Request {
-		return SetQueryParam(req, "device_type", "mobile")
+		return SetQueryParam(req, "device_type", deviceType)
 	}
 }
 
