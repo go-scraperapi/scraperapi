@@ -94,3 +94,15 @@ func TestWithAutoParse(t *testing.T) {
 		t.Errorf("expected %s, got %v", expected, actual)
 	}
 }
+
+func TestWithPremium(t *testing.T) {
+	req, _ := http.NewRequest("GET", "https://google.com", nil)
+
+	req = WithPremium()(req)
+
+	expected := "true"
+	actual := req.URL.Query().Get("premium")
+	if actual != expected {
+		t.Errorf("expected %s, got %v", expected, actual)
+	}
+}

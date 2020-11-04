@@ -72,3 +72,10 @@ func WithAutoParse() option {
 		return SetQueryParam(req, "autoparse", "true")
 	}
 }
+
+// WithPremium adds premium=true to the request.
+func WithPremium() option {
+	return func(req *http.Request) *http.Request {
+		return SetQueryParam(req, "premium", "true")
+	}
+}
