@@ -96,22 +96,13 @@ func (c *Client) sendRequest(req *http.Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	// TODO: Properly handle errors.
-	//if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
-	//	var errRes errorResponse
-	//	if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
-	//		return errors.New(errRes.Message)
-	//	}
-	//
-	//	return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
-	//}
-	//
-	//fullResponse := successResponse{
-	//	Data: v,
-	//}
-	//if err = json.NewDecoder(res.Body).Decode(&fullResponse); err != nil {
-	//	return err
-	//}
+	if res.StatusCode == 429 {
+		return res, fmt.Errorf("your plan concurrent connection limit is exceeded, slow down your request rate")
+	}
+
+	if res.StatusCode == 403 {
+		return res, fmt.Errorf("you exceeded your maximum number of monthly requests")
+	}
 
 	return res, nil
 }
