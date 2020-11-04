@@ -82,3 +82,15 @@ func TestWithDeviceTypeMobile(t *testing.T) {
 		t.Errorf("expected %s, got %v", expected, actual)
 	}
 }
+
+func TestWithAutoParse(t *testing.T) {
+	req, _ := http.NewRequest("GET", "https://google.com", nil)
+
+	req = WithAutoParse()(req)
+
+	expected := "true"
+	actual := req.URL.Query().Get("autoparse")
+	if actual != expected {
+		t.Errorf("expected %s, got %v", expected, actual)
+	}
+}

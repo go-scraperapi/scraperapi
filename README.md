@@ -34,6 +34,7 @@ s.Get(
 	scraperapi.WithSessionNumber("63c38f8dd07491e16e4d125983800a29"),
 	scraperapi.WithCountryCode(scraperapi.CountryCodeAustralia),
 	scraperapi.WithDeviceTypeMobile(),
+	scraperapi.WithAutoParse(),
 )
 
 // Scrape a form submit result.

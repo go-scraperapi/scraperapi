@@ -65,3 +65,10 @@ func WithDeviceTypeMobile() option {
 		return SetQueryParam(req, "device_type", "mobile")
 	}
 }
+
+// WithAutoParse adds autoparse=true to the request.
+func WithAutoParse() option {
+	return func(req *http.Request) *http.Request {
+		return SetQueryParam(req, "autoparse", "true")
+	}
+}
