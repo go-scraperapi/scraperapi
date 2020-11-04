@@ -50,7 +50,7 @@ func TestWithHeaders(t *testing.T) {
 func TestWithSessionNumber(t *testing.T) {
 	req, _ := http.NewRequest("GET", "https://google.com", nil)
 
-	req = WithSessionNumber(150)(req)
+	req = WithSessionNumber("150")(req)
 
 	expected := "150"
 	actual := req.URL.Query().Get("session_number")

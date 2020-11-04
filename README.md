@@ -31,7 +31,7 @@ s.Get(
 	"http://httpbin.org/anything",
 	scraperapi.WithRenderJS(),
 	scraperapi.WithHeader("X-MyHeader", "123"),
-	scraperapi.WithSessionNumber(45),
+	scraperapi.WithSessionNumber("63c38f8dd07491e16e4d125983800a29"),
 	scraperapi.WithCountryCode(scraperapi.CountryCodeAustralia),
 	scraperapi.WithDeviceTypeMobile(),
 )

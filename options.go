@@ -3,7 +3,6 @@ package scraperapi
 import (
 	"context"
 	"net/http"
-	"strconv"
 )
 
 type option func(r *http.Request) *http.Request
@@ -32,9 +31,9 @@ func WithHeader(key, value string) option {
 }
 
 // WithSessionNumber attaches a session number to a request.
-func WithSessionNumber(n int) option {
+func WithSessionNumber(num string) option {
 	return func(req *http.Request) *http.Request {
-		return SetQueryParam(req, "session_number", strconv.Itoa(n))
+		return SetQueryParam(req, "session_number", num)
 	}
 }
 
