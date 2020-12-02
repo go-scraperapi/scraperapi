@@ -7,7 +7,7 @@ https://www.scraperapi.com/signup
 
 ## Installation
 
-`go get -u github.com/go-scraperapi/scraperapi`
+`go get -u gopkg.in/scraperapi.v1`
 
 ## Usage
 
@@ -58,7 +58,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-scraperapi/scraperapi"
+	"gopkg.in/scraperapi.v1"
 	"net/http/httputil"
 )
 
