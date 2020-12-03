@@ -5,17 +5,18 @@ import (
 	"net/http"
 )
 
-type option func(r *http.Request) *http.Request
+// Option is a function that modifies the request.
+type Option func(r *http.Request) *http.Request
 
 // WithContext adds context to the request.
-func WithContext(ctx context.Context) option {
+func WithContext(ctx context.Context) Option {
 	return func(req *http.Request) *http.Request {
 		return req.WithContext(ctx)
 	}
 }
 
 // WithRenderJS makes the request fetch pages using a headless browser.
-func WithRenderJS() option {
+func WithRenderJS() Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "render", "true")
 	}
@@ -23,7 +24,7 @@ func WithRenderJS() option {
 
 // WithHeader instructs Scraper API to pass a provided header.
 // TODO: Refactoring to only accept a single header.
-func WithHeader(key, value string) option {
+func WithHeader(key, value string) Option {
 	return func(req *http.Request) *http.Request {
 		req.Header.Set(key, value)
 		return SetQueryParam(req, "keep_headers", "true")
@@ -31,12 +32,13 @@ func WithHeader(key, value string) option {
 }
 
 // WithSessionNumber attaches a session number to a request.
-func WithSessionNumber(num string) option {
+func WithSessionNumber(num string) Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "session_number", num)
 	}
 }
 
+// Available country codes.
 const (
 	CountryCodeUS        = "us"
 	CountryCodeCanada    = "ca"
@@ -53,32 +55,33 @@ const (
 )
 
 // WithCountryCode ensures your requests come from the specified location.
-func WithCountryCode(countyCode string) option {
+func WithCountryCode(countyCode string) Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "country_code", countyCode)
 	}
 }
 
+// Available device types.
 const (
 	DeviceTypeMobile = "mobile"
 )
 
 // WithDeviceType sets device_type to the specified value.
-func WithDeviceType(deviceType string) option {
+func WithDeviceType(deviceType string) Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "device_type", deviceType)
 	}
 }
 
 // WithAutoParse adds autoparse=true to the request.
-func WithAutoParse() option {
+func WithAutoParse() Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "autoparse", "true")
 	}
 }
 
 // WithPremium adds premium=true to the request.
-func WithPremium() option {
+func WithPremium() Option {
 	return func(req *http.Request) *http.Request {
 		return SetQueryParam(req, "premium", "true")
 	}

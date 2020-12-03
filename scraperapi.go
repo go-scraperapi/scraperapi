@@ -31,21 +31,21 @@ func New(apiKey string) *Client {
 }
 
 // Get performs a GET HTTP request to Scraper API.
-func (c *Client) Get(url string, options ...option) (*http.Response, error) {
+func (c *Client) Get(url string, options ...Option) (*http.Response, error) {
 	return c.makeAPICall("GET", url, nil, options)
 }
 
 // Post performs a POST HTTP request to Scraper API.
-func (c *Client) Post(url string, body io.Reader, options ...option) (*http.Response, error) {
+func (c *Client) Post(url string, body io.Reader, options ...Option) (*http.Response, error) {
 	return c.makeAPICall("POST", url, body, options)
 }
 
 // Put performs a PUT HTTP request to Scraper API.
-func (c *Client) Put(url string, body io.Reader, options ...option) (*http.Response, error) {
+func (c *Client) Put(url string, body io.Reader, options ...Option) (*http.Response, error) {
 	return c.makeAPICall("PUT", url, body, options)
 }
 
-func (c *Client) makeAPICall(httpMethod, url string, body io.Reader, options []option) (*http.Response, error) {
+func (c *Client) makeAPICall(httpMethod, url string, body io.Reader, options []Option) (*http.Response, error) {
 	req, err := http.NewRequest(httpMethod, c.BaseURL, body)
 	if err != nil {
 		return nil, fmt.Errorf("can't create an HTTP request: %s", err)
