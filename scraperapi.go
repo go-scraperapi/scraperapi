@@ -75,8 +75,6 @@ func (c *Client) Account() (accountResp AccountResponse, err error) {
 		return
 	}
 
-	//req = req.WithContext(ctx)
-
 	res, err := c.sendRequest(req)
 	if err != nil {
 		return
